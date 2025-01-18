@@ -1,18 +1,32 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class MoveToPlayerBehaivor : MonoBehaviour
+public class MoveToPlayerBehaivor : IBehaivor
 {
-    // Start is called before the first frame update
-    void Start()
+    private bool _isMoving;
+    private float _speed;
+
+    private ITarget _player;
+    private ITarget _mutant;
+
+    public MoveToPlayerBehaivor(ITarget player, ITarget mutant, float speed)
     {
-        
+        _player = player;
+        _mutant = mutant;
+        _speed = speed;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void StartBehaivor() => _isMoving = true;
+    public void StopBehaivor() => _isMoving = false;
+
+    public void Update()
     {
-        
+        if (_isMoving == false)
+            return;
+
+        MoveToPlayer();
+        LookAtPlayer();
     }
+
+    private void MoveToPlayer() => _mutant.Transform.Translate(_player.Transform.position * _speed * Time.deltaTime);
+    private void LookAtPlayer() => _mutant.Transform.LookAt(_player.Transform.position);
 }

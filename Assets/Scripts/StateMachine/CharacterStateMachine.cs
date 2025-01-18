@@ -23,7 +23,7 @@ public class CharacterStateMachine : IStateSwitcher
     {
         IState state = _states.FirstOrDefault(state => state is T);
 
-        _currentState.Exit();
+        _currentState?.Exit();
         _currentState = state;
         _currentState.Enter();
     }
