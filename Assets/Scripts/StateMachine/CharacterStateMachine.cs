@@ -16,8 +16,7 @@ public class CharacterStateMachine : IStateSwitcher
             new RunningState(this, data, character, character.Config.RunningStateConfig)
         };
 
-        _currentState = _states[0];
-        _currentState.Enter();
+        SwitchState<IdilingState>();
     }
 
     public void SwitchState<T>() where T : IState
