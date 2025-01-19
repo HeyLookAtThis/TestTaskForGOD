@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[RequireComponent (typeof(CharacterController))]
 public class Character : MonoBehaviour, ITarget
 {
     [SerializeField] private CharacterConfig _config;

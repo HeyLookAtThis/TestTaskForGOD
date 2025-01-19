@@ -2,32 +2,68 @@ using UnityEngine;
 
 public class MutantsBehaivorSwitcher
 {
-    private MutantConfig _config;
     private MutantSearcher _searcher;
     private Mutant _mutant;
 
-    public MutantsBehaivorSwitcher(MutantConfig config, Mutant mutant)
+    private ITarget _player;
+    private bool _isReachedAttackBehaivor;
+
+    public MutantsBehaivorSwitcher(Mutant mutant, MutantSearcher searcher)
     {
-        _config = config;
-        _searcher = new MutantSearcher(_config.SearchConfig, mutant);
+        _mutant = mutant;
+        _player = null;
+
+        _searcher = searcher;
+
+        _mutant.SetBehaivor(new IdilingBehaivor());
+        _isReachedAttackBehaivor = false;
+    }
+
+    public void AddActionsCallback()
+    {
+        _searcher.FoundTarget += OnSetMoveToTargetBehaivor;
+        _searcher.LostTarget += OnSetIdilingBeghaivor;
+    }
+
+    public void RemoveActionsCallback()
+    {
+        _searcher.FoundTarget -= OnSetMoveToTargetBehaivor;
+        _searcher.LostTarget -= OnSetIdilingBeghaivor;
     }
 
     public void Update()
     {
-        ITarget target = _searcher.TryGetTarget();
+        if (_player == null)
+            return;
 
-        if (target == null)
+        if (GetDistanse() <= _mutant.Config.MoveToPlayerConfig.Distance && _isReachedAttackBehaivor == false)
         {
-            _mutant.SetBehaivor(new IdilingBehaivor());
+            _isReachedAttackBehaivor = true;
+            SetAttackBehaivor();
         }
-        else
+
+        if(GetDistanse() >= _mutant.Config.MoveToPlayerConfig.Distance && _isReachedAttackBehaivor == true)
         {
-            if (GetDistanse(target) > _config.AttackConfig.Distance)
-                _mutant.SetBehaivor(new MoveToPlayerBehaivor(target, _mutant, _config.MoveToPlayerConfig.Speed));
-            else
-                _mutant.SetBehaivor(new AttackBehaivor(target, _config.AttackConfig.AttackSpeed, _config.AttackConfig.Damage));
+            _isReachedAttackBehaivor = false;
         }
     }
 
-    private float GetDistanse(ITarget target) => Vector2.Distance(target.Transform.position, _mutant.Transform.position);
+    private void OnSetIdilingBeghaivor()
+    {
+        _mutant.SetBehaivor(new IdilingBehaivor());
+        _player = null;
+    }
+
+    private void OnSetMoveToTargetBehaivor(ITarget target)
+    {
+        _player = target;
+        _mutant.SetBehaivor(new MoveToPlayerBehaivor(_player, _mutant, _mutant.Config.MoveToPlayerConfig));
+    }
+
+    private void SetAttackBehaivor()
+    {
+        _mutant.SetBehaivor(new AttackBehaivor(_player, _mutant.Config.AttackConfig));
+    }
+
+    private float GetDistanse() => Vector2.Distance(_player.Transform.position, _mutant.Transform.position);
 }

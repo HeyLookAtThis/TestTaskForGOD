@@ -1,26 +1,26 @@
 using UnityEngine;
+using UnityEngine.Events;
 
-public class MutantSearcher : Searcher
+public class MutantSearcher : MonoBehaviour, ISearcher
 {
-    private float _radius;
-    private ITarget _mutant;
+    public event UnityAction<ITarget> FoundTarget;
+    public event UnityAction LostTarget;
 
-    public MutantSearcher(SearchConfig searchConfig, ITarget mutant)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        _radius = searchConfig.Radius;
-        _mutant = mutant;
+        if(collision.TryGetComponent<ITarget>(out ITarget target))
+            if(target is Character)
+                FoundTarget?.Invoke(target);
+
+        Debug.Log("Enter");
     }
 
-    public override float Radius => _radius;
-
-    public override ITarget TryGetTarget()
+    private void OnTriggerExit2D(Collider2D collision)
     {
-        var collider = Physics2D.OverlapCircle(_mutant.Transform.position, _radius);
+        if (collision.TryGetComponent<ITarget>(out ITarget target))
+            if (target is Character)
+                LostTarget?.Invoke();
 
-        if(collider.TryGetComponent<ITarget>(out ITarget target))
-            if(target is Character)
-                return target;
-
-        return null;
+        Debug.Log("Exit");
     }
 }

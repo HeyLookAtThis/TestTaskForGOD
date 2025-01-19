@@ -2,20 +2,18 @@ using UnityEngine;
 
 public class AttackBehaivor : IBehaivor
 {
-    private bool _canAttack;
+    private readonly ITarget _player;
+    private readonly float _attackTime;
 
-    private ITarget _player;
+    private AttackConfig _config;
 
     private float _lastAttackTime;
-    private float _attackTime;
+    private bool _canAttack;
 
-    private float _damage;
-
-    public AttackBehaivor(ITarget player,  float attackSpeed, float damage)
+    public AttackBehaivor(ITarget player, AttackConfig config)
     {
         _player = player;
-        _attackTime = attackSpeed;
-        _damage = damage;
+        _config = config;
     }
 
     public void StartBehaivor() => _canAttack = true;
@@ -35,5 +33,5 @@ public class AttackBehaivor : IBehaivor
         }
     }
 
-    private void Attack() => _player.Health.TakeDamage(_damage);
+    private void Attack() => _player.Health.TakeDamage(_config.Damage);
 }

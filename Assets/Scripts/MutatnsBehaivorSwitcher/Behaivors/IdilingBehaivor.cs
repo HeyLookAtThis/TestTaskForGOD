@@ -1,3 +1,5 @@
+using System;
+
 public class IdilingBehaivor : IBehaivor
 {
     private bool _isIdiling;
