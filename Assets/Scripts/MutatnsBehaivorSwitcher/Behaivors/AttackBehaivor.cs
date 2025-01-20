@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class AttackBehaivor : IBehaivor
 {
-    private readonly ITarget _player;
+    private readonly Target _player;
     private readonly float _attackTime;
 
     private AttackConfig _config;
@@ -10,7 +10,7 @@ public class AttackBehaivor : IBehaivor
     private float _lastAttackTime;
     private bool _canAttack;
 
-    public AttackBehaivor(ITarget player, AttackConfig config)
+    public AttackBehaivor(Target player, AttackConfig config)
     {
         _player = player;
         _config = config;

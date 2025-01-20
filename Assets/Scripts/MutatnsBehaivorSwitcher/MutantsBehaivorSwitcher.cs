@@ -5,15 +5,17 @@ public class MutantsBehaivorSwitcher
     private MutantSearcher _searcher;
     private Mutant _mutant;
 
-    private ITarget _player;
+    private Target _player;
+    private Target _tagetForPlayer;
     private bool _isReachedAttackBehaivor;
 
-    public MutantsBehaivorSwitcher(Mutant mutant, MutantSearcher searcher)
+    public MutantsBehaivorSwitcher(Mutant mutant, MutantSearcher searcher, Target targetForPlayer)
     {
         _mutant = mutant;
         _player = null;
 
         _searcher = searcher;
+        _tagetForPlayer = targetForPlayer;
 
         _mutant.SetBehaivor(new IdilingBehaivor());
         _isReachedAttackBehaivor = false;
@@ -31,7 +33,7 @@ public class MutantsBehaivorSwitcher
         _searcher.LostTarget -= OnSetIdilingBeghaivor;
     }
 
-    public void Update()
+    public void TryReachAttackBehaivor()
     {
         if (_player == null)
             return;
@@ -54,10 +56,10 @@ public class MutantsBehaivorSwitcher
         _player = null;
     }
 
-    private void OnSetMoveToTargetBehaivor(ITarget target)
+    private void OnSetMoveToTargetBehaivor(Target target)
     {
         _player = target;
-        _mutant.SetBehaivor(new MoveToPlayerBehaivor(_player, _mutant, _mutant.Config.MoveToPlayerConfig));
+        _mutant.SetBehaivor(new MoveToPlayerBehaivor(_player, _tagetForPlayer, _mutant.Config.MoveToPlayerConfig));
     }
 
     private void SetAttackBehaivor()
@@ -65,5 +67,5 @@ public class MutantsBehaivorSwitcher
         _mutant.SetBehaivor(new AttackBehaivor(_player, _mutant.Config.AttackConfig));
     }
 
-    private float GetDistanse() => Vector2.Distance(_player.Transform.position, _mutant.Transform.position);
+    private float GetDistanse() => Vector2.Distance(_player.Transform.position, _tagetForPlayer.Transform.position);
 }

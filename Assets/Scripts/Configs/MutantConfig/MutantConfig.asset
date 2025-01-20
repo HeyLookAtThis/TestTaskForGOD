@@ -15,7 +15,8 @@ MonoBehaviour:
   _searchConfig:
     <Radius>k__BackingField: 3
   _moveToPlayerConfig:
-    <Speed>k__BackingField: 2
+    <Speed>k__BackingField: 1
+    <Distance>k__BackingField: 0.5
   _attackConfig:
     <Damage>k__BackingField: 1
     <AttackSpeed>k__BackingField: 2
