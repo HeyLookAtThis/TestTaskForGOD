@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f11ee11ac718f74293511af47feabb5, type: 3}
+  m_Name: MutantFactory
+  m_EditorClassIdentifier: 
+  _zombie:
+    _prefab: {fileID: 96564041378261433, guid: 6169ea49d5ed4834c87ab290fa3f19bb, type: 3}
+    _searchConfig:
+      <Radius>k__BackingField: 2
+      <TargetLayer>k__BackingField:
+        serializedVersion: 2
+        m_Bits: 64
+    _moveToPlayerConfig:
+      <Speed>k__BackingField: 1.5
+      <TargetDistance>k__BackingField: 0.7
+    _attackConfig:
+      <Damage>k__BackingField: 1
+      <AttackTime>k__BackingField: 2
+      <Distance>k__BackingField: 0.7
+    _healthConfig:
+      <MaxHealth>k__BackingField: 5
+  _bigDog:
+    _prefab: {fileID: 6452595985965779368, guid: 7354784508f860142bb849307160b9f9, type: 3}
+    _searchConfig:
+      <Radius>k__BackingField: 3
+      <TargetLayer>k__BackingField:
+        serializedVersion: 2
+        m_Bits: 64
+    _moveToPlayerConfig:
+      <Speed>k__BackingField: 3
+      <TargetDistance>k__BackingField: 1
+    _attackConfig:
+      <Damage>k__BackingField: 0.25
+      <AttackTime>k__BackingField: 0.5
+      <Distance>k__BackingField: 1
+    _healthConfig:
+      <MaxHealth>k__BackingField: 3

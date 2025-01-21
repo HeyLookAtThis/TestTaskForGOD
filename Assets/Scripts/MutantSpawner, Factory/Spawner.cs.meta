@@ -1,0 +1,12 @@
+fileFormatVersion: 2
+guid: 0491a560e07581946a734284f4aef988
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - _mutantFactory: {fileID: 11400000, guid: cb03426f5180fd948971cc1086120512, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

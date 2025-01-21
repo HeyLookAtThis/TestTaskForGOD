@@ -15,6 +15,9 @@ MonoBehaviour:
   _runningStateConfig:
     <Speed>k__BackingField: 4
   _searchingConfig:
-    <Radius>k__BackingField: 5
+    <Radius>k__BackingField: 3
+    <TargetLayer>k__BackingField:
+      serializedVersion: 2
+      m_Bits: 128
   _healthConfig:
     <MaxHealth>k__BackingField: 5

@@ -1,44 +1,31 @@
 using UnityEngine;
 
-public class Mutant : MonoBehaviour
+public class Mutant : Target
 {
-    [SerializeField] private MutantConfig _config;
-    [SerializeField] private MutantSearcher _searcher;
-    [SerializeField] private TargetForPlayer _targetForPlayer;
+    [SerializeField] private HealthBar _healthBar;
 
-    private MutantsBehaivorSwitcher _switcher;
+    private MutantConfig _config;    
+    private Searcher _searcher;
+    private Health _health;
+    private MutantStateMachine _stateMachine;
 
-    private IBehaivor _currentBehaivor;
-
+    public override Transform Transform => transform;
+    public override Health Health => _health;
     public MutantConfig Config => _config;
-
-    private void Awake()
-    {
-        _switcher = new MutantsBehaivorSwitcher(this, _searcher, _targetForPlayer);
-    }
-
-    private void OnEnable()
-    {
-        _switcher.AddActionsCallback();
-    }
-
-    private void OnDisable()
-    {
-        _switcher.RemoveActionsCallback();
-    }
+    public Searcher Searcher => _searcher;
 
     private void Update()
     {
-        _switcher.TryReachAttackBehaivor();
-        _currentBehaivor.Update();
+        _stateMachine.Update();
+        _searcher.Update(transform.position);
     }
 
-    public void SetBehaivor(IBehaivor behaivor)
+    public void Initialize(MutantConfig config)
     {
-        Debug.Log(behaivor);
-
-        _currentBehaivor?.StopBehaivor();
-        _currentBehaivor = behaivor;
-        _currentBehaivor.StartBehaivor();
+        _config = config;
+        _searcher = new Searcher(_config.SearchConfig);
+        _health = new Health(_config.HealthConfig);
+        _stateMachine = new MutantStateMachine(this);
+        _healthBar.Initialize(_health);
     }
 }

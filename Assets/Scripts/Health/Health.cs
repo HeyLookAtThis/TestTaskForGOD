@@ -31,6 +31,7 @@ public class Health
     }
 
     public float MaxValue => _maxValue;
+    public float Value => _currentValue;
 
     public void TakeDamage(float damage)
     {

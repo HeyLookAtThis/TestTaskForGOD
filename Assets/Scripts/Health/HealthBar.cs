@@ -5,27 +5,23 @@ using UnityEngine.UI;
 public class HealthBar : MonoBehaviour
 {
     [SerializeField] private float _speed;
-    [SerializeField] private Target _target;
     [SerializeField] private Slider _slider;
 
     private Health _health;
 
     private Coroutine _valueChanger;
 
-    private void Awake()
-    {
-        _health = _target.Health;
-    }
-
-    private void OnEnable()
-    {
-        SetMaxValue();
-        _health.Changed += OnChangeValue;
-    }
-
     private void OnDisable()
     {
         _health.Changed -= OnChangeValue;
+    }
+
+    public void Initialize(Health health)
+    {
+        _health = health;
+        SetMaxValue();
+
+        _health.Changed += OnChangeValue;
     }
 
     private void SetMaxValue()

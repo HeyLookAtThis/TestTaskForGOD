@@ -4,14 +4,22 @@ using UnityEngine;
 public class Character : MonoBehaviour
 {
     [SerializeField] private CharacterConfig _config;
+    [SerializeField] private HealthBar _healthBar;
+    [SerializeField] private Automat _automat;
 
+    private Health _health;
+    private Target _target;
+    private Searcher _searcher;
     private PlayerInput _input;
     private CharacterController _controller;
     private CharacterStateMachine _stateMachine;
 
-    public PlayerInput Input => _input;
-    public CharacterConfig Config => _config;
     public CharacterController Controller => _controller;
+    public CharacterConfig Config => _config;
+    public Searcher Searcher => _searcher;
+    public PlayerInput Input => _input;
+    public Automat Automat => _automat;
+    public Health Health => _health;
 
     private void Awake()
     {
@@ -19,6 +27,8 @@ public class Character : MonoBehaviour
 
         _input = new PlayerInput();
         _stateMachine = new CharacterStateMachine(this);
+        _health = new Health(_config.HealthConfig);
+        _searcher = new Searcher(_config.SearchingConfig);
     }
 
     private void OnEnable() => _input.Enable();
@@ -28,5 +38,12 @@ public class Character : MonoBehaviour
     {
         _stateMachine.HandleInput();
         _stateMachine.Update();
+        _searcher.Update(transform.position);
+        Debug.Log(_searcher.Target);
+    }
+
+    public void Initialize()
+    {
+        _healthBar.Initialize(_health);
     }
 }

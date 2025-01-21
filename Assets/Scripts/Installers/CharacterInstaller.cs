@@ -13,7 +13,8 @@ public class CharacterInstaller : MonoInstaller
 
     private void BindPlayer()
     {
-        Character caracter = Container.InstantiatePrefabForComponent<Character>(_prefab, _spawnPoint.position, Quaternion.identity, null);
-        Container.BindInterfacesAndSelfTo<Character>().FromInstance(caracter).AsSingle();
+        Character character = Container.InstantiatePrefabForComponent<Character>(_prefab, _spawnPoint.position, Quaternion.identity, null);
+        character.Initialize();
+        Container.BindInterfacesAndSelfTo<Character>().FromInstance(character).AsSingle();
     }
 }
